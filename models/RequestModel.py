@@ -13,17 +13,18 @@ class RequestModel(db.Model):
     description = db.Column(db.String)
 
     # Foreign key relationship to clinics
-    clinicID = db.Column(db.Integer, db.ForeignKey("clinics.id"))
+    hospitalID = db.Column(db.Integer, db.ForeignKey("hospitals.id"))
+    hospital = db.relationship("HospitalModel")
 
-    def __init__(self,title, deviceName, description, clinicID):
+    def __init__(self,title, deviceName, description, hospitalID):
         self.title = title
         self.deviceName = deviceName
         self.description = description
-        self.clinicID = clinicID
+        self.hospitalID = hospitalID
 
     # Return a json representation of the model
     def json(self):
-        return {"id":self.id,"title":self.title, "deviceName": self.deviceName, "description":self.description, "clinicID": self.clinicID}
+        return {"id":self.id,"title":self.title, "deviceName": self.deviceName, "description":self.description, "hospitalID": self.hospitalID}
 
     @classmethod
     def find_by_id(cls, id):

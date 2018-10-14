@@ -10,6 +10,7 @@ class HospitalModel(db.Model):
     name = db.Column(db.String(80))
 
     donations = db.relationship("DonationModel")
+    requests = db.relationship("RequestModel")
 
     def __init__(self,name):
         self.name = name
@@ -17,7 +18,8 @@ class HospitalModel(db.Model):
     # Return a json representation of the model
     def json(self):
         donationsJSON = [donation.json() for donation in self.donations]
-        return {"id":self.id, "name":self.name, "donations": donationsJSON}
+        requestsJSON = [request.json() for request in self.requests]
+        return {"id":self.id, "name":self.name, "donations": donationsJSON, "requests": requestsJSON}
 
     @classmethod
     def find_by_name(cls, name):

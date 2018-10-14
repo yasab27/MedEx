@@ -4,7 +4,6 @@ from flask_restful import Api
 from flask_jwt import JWT, jwt_required
 # from security import authenticate, identity
 
-from resources.ClinicResource import ClinicResource, ClinicListResource
 from resources.HospitalResource import HospitalResource, HospitalListResource
 from resources.RequestResource import RequestResource
 from resources.DonationResource import DonationResource
@@ -23,17 +22,15 @@ api = Api(app)
 # Configuring token based authentication
 # jwt = JWT(app, authenticate, identity) #/ auth
 # Ask the db to create all the necessary tables before operation
-@app.before_first_request
-def create_tables():
-    db.create_all()
+# @app.before_first_request
+# def create_tables():
+#     db.create_all()
 
 # Setting up a basic route for the homepage without using Flask-RESTful. This enables us to run our angular on the front end
 @app.route("/")
 def home():
     return send_file("templates/index.html")
 
-api.add_resource(ClinicResource, "/clinic/<string:name>")
-api.add_resource(ClinicListResource, "/clinics")
 api.add_resource(HospitalResource, "/hospital/<string:name>")
 api.add_resource(HospitalListResource, "/hospitals")
 api.add_resource(RequestResource, "/request/new")

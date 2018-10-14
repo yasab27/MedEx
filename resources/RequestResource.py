@@ -1,5 +1,5 @@
 from models.RequestModel import RequestModel
-from models.ClinicModel import ClinicModel
+from models.HospitalModel import HospitalModel
 from flask_restful import Resource, reqparse
 
 class RequestResource(Resource):
@@ -24,10 +24,10 @@ class RequestResource(Resource):
         help = "description cannot be left blank"
     )
 
-    parser.add_argument("clinicID",
+    parser.add_argument("hospitalID",
         type = str,
         required = True, # If there is no price argument, stop.
-        help = "clinicID cannot be left blank"
+        help = "hospitalID cannot be left blank"
     )
 
     def get(self,id):

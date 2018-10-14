@@ -23,7 +23,7 @@ class HospitalResource(Resource):
             return {"message":"Could not create new hospital"}, 500 # Internal server error
 
     def delete(self,name):
-        clinicToDelete = ClinicModel.find_by_name(name)
+        clinicToDelete = HospitalModel.find_by_name(name)
         if(clinicToDelete):
             clinicToDelete.delete_from_db()
         # If the story didn't exist to begin with, we don't really care as long as it is no longer there
