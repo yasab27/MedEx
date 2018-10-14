@@ -2,13 +2,12 @@
 from flask import Flask, send_file, request, jsonify
 from flask_restful import Api
 from flask_jwt import JWT, jwt_required
-from security import authenticate, identity
+# from security import authenticate, identity
 
-# Import our resources
-from resources.ProfessorResource import ProfessorResource, ProfessorRegistrar, ProfessorListResource
-from resources.StudentResource import StudentResource, StudentRegistrar, StudentListResource
-from resources.DinnerResource import DinnerResource, DinnerRegistrar, DinnerListResource
-from resources.ApplicationResource import ApplicationResource, ApplicationRegistrar
+from resources.ClinicResource import ClinicResource, ClinicListResource
+from resources.HospitalResource import HospitalResource, HospitalListResource
+from resources.RequestResource import RequestResource
+from resources.DonationResource import DonationResource
 
 # Initialize our flask application
 app = Flask(__name__)
@@ -22,26 +21,23 @@ app.secret_key = "jose"
 api = Api(app)
 
 # Configuring token based authentication
-jwt = JWT(app, authenticate, identity) #/ auth
+# jwt = JWT(app, authenticate, identity) #/ auth
+# Ask the db to create all the necessary tables before operation
+@app.before_first_request
+def create_tables():
+    db.create_all()
 
 # Setting up a basic route for the homepage without using Flask-RESTful. This enables us to run our angular on the front end
 @app.route("/")
 def home():
     return send_file("templates/index.html")
 
-# Allow for the creation of standard user objects
-api.add_resource(ProfessorRegistrar,"/professor/register")
-api.add_resource(ProfessorResource,"/professors/<string:uniqueID>")
-api.add_resource(ProfessorListResource,"/professors")
-api.add_resource(StudentResource, "/student/<string:netID>")
-api.add_resource(StudentRegistrar, "/student/register")
-api.add_resource(StudentListResource,"/students")
-api.add_resource(DinnerResource, "/dinner/<int:id>")
-api.add_resource(DinnerRegistrar, "/dinner/register")
-api.add_resource(DinnerListResource, "/dinners")
-api.add_resource(ApplicationResource,"/applicaiton/<int:id>")
-api.add_resource(ApplicationRegistrar,"/application/register")
-
+api.add_resource(ClinicResource, "/clinic/<string:name>")
+api.add_resource(ClinicListResource, "/clinics")
+api.add_resource(HospitalResource, "/hospital/<string:name>")
+api.add_resource(HospitalListResource, "/hospitals")
+api.add_resource(RequestResource, "/request/new")
+api.add_resource(DonationResource, "/donation/new")
 
 if __name__ == "__main__":
     # We import SQLAlchemy here from DB alchemy due to the problems with circular importsself.
