@@ -45,3 +45,9 @@ class DonationModel(db.Model):
     def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()
+
+    @classmethod
+    def returnAll(cls):
+        allClinics =  cls.query.all()
+        allClinicsJSON = [clinic.json() for clinic in allClinics]
+        return allClinicsJSON

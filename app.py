@@ -5,8 +5,8 @@ from flask_jwt import JWT, jwt_required
 # from security import authenticate, identity
 
 from resources.HospitalResource import HospitalResource, HospitalListResource, HospitalAuthenticationResource
-from resources.RequestResource import RequestResource
-from resources.DonationResource import DonationResource
+from resources.RequestResource import RequestResource, RequestListResource
+from resources.DonationResource import DonationResource, DonationListResource
 
 # Initialize our flask application
 app = Flask(__name__)
@@ -36,6 +36,8 @@ api.add_resource(HospitalListResource, "/hospitals")
 api.add_resource(RequestResource, "/request/new")
 api.add_resource(DonationResource, "/donation/new")
 api.add_resource(HospitalAuthenticationResource, "/hospital/auth")
+api.add_resource(RequestListResource, "/requests")
+api.add_resource(DonationListResource, "/donations")
 
 if __name__ == "__main__":
     # We import SQLAlchemy here from DB alchemy due to the problems with circular importsself.

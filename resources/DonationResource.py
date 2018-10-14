@@ -55,3 +55,8 @@ class DonationResource(Resource):
             donationToDelete.delete_from_db()
         # If the story didn't exist to begin with, we don't really care as long as it is no longer there
         return {"Message":"Donation has been deleted"}
+
+class DonationListResource(Resource):
+
+    def get(self):
+        return DonationModel.returnAll()

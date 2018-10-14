@@ -55,3 +55,9 @@ class RequestResource(Resource):
             requestToDelete.delete_from_db()
         # If the story didn't exist to begin with, we don't really care as long as it is no longer there
         return {"Message":"Request has been deleted"}
+
+
+class RequestListResource(Resource):
+
+    def get(self):
+        return RequestModel.returnAll()
