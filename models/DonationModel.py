@@ -1,6 +1,7 @@
 # Here we create an Item Model which functions to serve as an internal representation of the object for the
 # API. The resources are the external model. In general, resources should only have get,post,put,delete,etc.
 from db import db
+from datetime import datetime
 
 # These models must extend db.Model, this creates the mapping between the db and the model objects
 class DonationModel(db.Model):
@@ -11,12 +12,13 @@ class DonationModel(db.Model):
     title = db.Column(db.String(80))
     deviceName = db.Column(db.String(80))
     description = db.Column(db.String)
+    timeStamp = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Foreign key relationship to clinics
     hospitalID = db.Column(db.Integer, db.ForeignKey("hospitals.id"))
     hospital = db.relationship("HospitalModel")
 
-    
+
     def __init__(self,title, deviceName, description, hospitalID):
         self.title = title
         self.deviceName = deviceName
@@ -25,7 +27,7 @@ class DonationModel(db.Model):
 
     # Return a json representation of the model
     def json(self):
-        return {"id":self.id,"title":self.title, "deviceName": self.deviceName, "description":self.description, "hospitalID": self.hospitalID}
+        return {"id":self.id,"title":self.title, "deviceName": self.deviceName, "description":self.description, "hospitalID": self.hospitalID, "timeStamp": str(self.timeStamp)}
 
     @classmethod
     def find_by_id(cls, id):

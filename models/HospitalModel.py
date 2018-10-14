@@ -9,11 +9,16 @@ class HospitalModel(db.Model):
     id = db.Column(db.Integer, primary_key= True)
     name = db.Column(db.String(80))
 
+    email = db.Column(db.String(80))
+    password = db.Column(db.String(80))
+
     donations = db.relationship("DonationModel")
     requests = db.relationship("RequestModel")
 
-    def __init__(self,name):
+    def __init__(self,name, email, password):
         self.name = name
+        self.email = email
+        self.password = password
 
     # Return a json representation of the model
     def json(self):
@@ -26,6 +31,12 @@ class HospitalModel(db.Model):
         # SQL Alchemy will automatically convert a row to an object. This is incredibly simple. This automatically returns an ItemModel object
         # The query will allow us to build a query really fast and autoconvert an object
         return cls.query.filter_by(name=name).first() # SELECT * FROM items WHERE name=? (name, ) We can even keep building up this filter if we want
+
+    @classmethod
+    def find_by_email(cls, email):
+        # SQL Alchemy will automatically convert a row to an object. This is incredibly simple. This automatically returns an ItemModel object
+        # The query will allow us to build a query really fast and autoconvert an object
+        return cls.query.filter_by(email=email).first() # SELECT * FROM items WHERE name=? (name, ) We can even keep building up this filter if we want
 
     # Insert the particular instance of this class into the databaseself. This also performs updates, so we no longer need an update method
     def save_to_db(self):
